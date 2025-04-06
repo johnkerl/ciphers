@@ -433,74 +433,6 @@
 <!-- ================================================================ -->
 
 <!-- Modal content -->
-<div id="foursquare-cipher-help-background" class="modal-background">
-  <div id="foursquare-cipher-help-content" class="modal-content">
-    <div>
-      <button id="foursquare-cipher-help-close-button" class="general white-on-green" > Close </button>
-    </div>
-    <div>
-
-    <p class="maroon">Help for Foursquare cipher:</p>
-
-      <p>Enter your required letters and your other letters. (For the NYT Spelling Foursquare,
-      this will be the center letter and the surrounding letters, respectively.)
-
-      <p> You can further restrict your results by setting minimum and maximum word lengths.
-
-    </div>
-  </div>
-</div>
-
-<div id="vigenere-cipher-help-background" class="modal-background">
-  <div id="vigenere-cipher-help-content" class="modal-content">
-    <div>
-      <button id="vigenere-cipher-help-close-button" class="general white-on-green" > Close </button>
-    </div>
-    <div>
-
-    <p class="maroon">Help for pattern cipher:</p>
-
-    <p> Enter your desired letters in the <code>Letters</code> field.</p>
-
-    <p> You can use a <code>.</code> as a wildcard to match any single letter. For example, <code>LE.T</code>
-    matches <code>LEFT</code>, <code>LENT</code>, <code>LEST</code>, etc.</p>
-
-    <p> You can use a <code>*</code> as a wildcard to match zero or more of any letter. For example:</p>
-    <ul>
-      <li><code>OBOLUS</code> shows the one word <code>OBOLUS</code>, as a dictionary lookup</li>
-      <li><code>THR*</code> shows all words that begin with <code>THR</code></li>
-      <li><code>*EST</code> shows all words that end with <code>EST</code></li>
-      <li><code>TH*TH</code> shows all words that begin and end with <code>TH</code> and</li>
-      <li><code>*NIMB*</code> shows all words that have the sequence <code>NIMB</code> anywhere within.</li>
-    </ul>
-
-    <p> You can further restrict your results by setting minimum and maximum word lengths. </p>
-
-    </div>
-  </div>
-</div>
-
-<div id="playfair-cipher-help-background" class="modal-background">
-  <div id="playfair-cipher-help-content" class="modal-content">
-    <div>
-      <button id="playfair-cipher-help-close-button" class="general white-on-green" > Close </button>
-    </div>
-    <div>
-
-    <p class="maroon">Help for anagram cipher:</p>
-
-    <p> Enter your desired letters in the Letters field.</p>
-
-    <p> Results shown will be <a href="https://en.wikipedia.org/wiki/Anagram"
-    target="_blank">anagrams</a> of the letters you provide. For example, <code>ELATES</code> will
-    match <code>SEALET</code> but not <code>ELATE</code> or <code>SEALETS</code>.  </p>
-
-    <p> Some words with many anagrams include <code>STOP</code>, <code>SLATE</code>,
-    <code>PEARS</code>, and <code>TRIANGLE</code>.</p>
-
-    </div>
-  </div>
-</div>
 
 <div id="shift-cipher-help-background" class="modal-background">
   <div id="shift-cipher-help-content" class="modal-content">
@@ -508,12 +440,8 @@
       <button id="shift-cipher-help-close-button" class="general white-on-green" > Close </button>
     </div>
     <div>
-
     <p class="maroon">Help for shift cipher:</p>
-
-    <p> Select how many words to generate at a time.</p>
-    <p> Use the Generate button to get a new random sample.</p>
-
+    <p>Lorem ipsum.
     </div>
   </div>
 </div>
@@ -524,12 +452,44 @@
       <button id="permutation-cipher-help-close-button" class="general white-on-green" > Close </button>
     </div>
     <div>
+    <p class="maroon">Help for the permutation cipher:</p>
+    <p>Lorem ipsum.
+    </div>
+  </div>
+</div>
 
-    <p class="maroon">Help for the Caesar cipher:</p>
+<div id="vigenere-cipher-help-background" class="modal-background">
+  <div id="vigenere-cipher-help-content" class="modal-content">
+    <div>
+      <button id="vigenere-cipher-help-close-button" class="general white-on-green" > Close </button>
+    </div>
+    <div>
+    <p class="maroon">Help for pattern cipher:</p>
+    <p>Lorem ipsum.
+    </div>
+  </div>
+</div>
 
-    <p> Select how many words to generate at a time.</p>
-    <p> Use the Generate button to get a new random sample.</p>
+<div id="playfair-cipher-help-background" class="modal-background">
+  <div id="playfair-cipher-help-content" class="modal-content">
+    <div>
+      <button id="playfair-cipher-help-close-button" class="general white-on-green" > Close </button>
+    </div>
+    <div>
+    <p class="maroon">Help for Playfair cipher:</p>
+    <p>Lorem ipsum.
+    </div>
+  </div>
+</div>
 
+<div id="foursquare-cipher-help-background" class="modal-background">
+  <div id="foursquare-cipher-help-content" class="modal-content">
+    <div>
+      <button id="foursquare-cipher-help-close-button" class="general white-on-green" > Close </button>
+    </div>
+    <div>
+    <p class="maroon">Help for Foursquare cipher:</p>
+    <p>Lorem ipsum.
     </div>
   </div>
 </div>
@@ -550,9 +510,6 @@
     TextSpan,
     isInteger,
     setErrorWidget,
-  // } from "http://127.0.1:9999/sliver/dev/sliver.js"
-  // npx http-server ~/pub_http_internet -o -p 9999
-  // } from "https://johnkerl.org/sliver/staging/sliver.js"
   // } from "https://johnkerl.org/sliver/stable/sliver.js"
   } from "./sliver.js" // local copy
 
@@ -571,15 +528,15 @@
 
       this.setElementsAndCallbacks()
 
-//      if (this.elements.modeButtons.which() == 'foursquare-cipher-button') {
+//      if (this.elements.cipherButtons.which() == 'foursquare-cipher-button') {
 //        this.elements.requiredLettersElement.focus()
-//      } else if (this.elements.modeButtons.which() == 'playfair-cipher-button') {
+//      } else if (this.elements.cipherButtons.which() == 'playfair-cipher-button') {
 //        this.elements.anagramLettersElement.focus()
-//      } else if (this.elements.modeButtons.which() == 'vigenere-cipher-button') {
+//      } else if (this.elements.cipherButtons.which() == 'vigenere-cipher-button') {
 //        this.elements.patternLettersElement.focus()
-//      } else if (this.elements.modeButtons.which() == 'shift-cipher-button') {
+//      } else if (this.elements.cipherButtons.which() == 'shift-cipher-button') {
 //        this.elements.shiftCipherButton.focus()
-//      } else if (this.elements.modeButtons.which() == 'permutation-cipher-button') {
+//      } else if (this.elements.cipherButtons.which() == 'permutation-cipher-button') {
 //        this.elements.ngramGenerateButton.focus()
 //      }
 
@@ -791,7 +748,7 @@
 
 //      this.elements.matchLengthsRow = new GenericElement("match-lengths-row")
 
-      this.elements.modeButtons = new URLAndPersistentNButtonSwitcher( {
+      this.elements.cipherButtons = new URLAndPersistentNButtonSwitcher( {
 
           "shift-cipher-button": {
             "text": "Shift",
@@ -821,7 +778,7 @@
               new GenericElement("permutation-cipher-help-launcher-button"),
             ],
             "callback": () => {
-              this.logAt0("SWTICH TO PERMUTATION CIPHER")
+              this.logAt0("swtich to permutation cipher")
               this.elements.matchLengthsRow.makeInvisible()
 
               // The tab button being clicked gets the focus.
@@ -862,7 +819,7 @@
 
               this.showMatches()
             },
-            "urlShorthand": "pattern",
+            "urlShorthand": "vigenere",
           },
 
           "playfair-cipher-button": {
@@ -887,7 +844,7 @@
 
               this.showMatches()
             },
-            "urlShorthand": "anagram",
+            "urlShorthand": "playfair",
           },
 
           "foursquare-cipher-button": {
@@ -914,7 +871,7 @@
 
               this.showMatches()
             },
-            "urlShorthand": "bee",
+            "urlShorthand": "foursquare",
           },
 
         },
@@ -924,30 +881,8 @@
 
 
       // ----------------------------------------------------------------
-
-      this.elements.bee_mode_help_background  = new GenericElement("foursquare-cipher-help-background")
-      this.elements.bee_mode_help_content  = new GenericElement("foursquare-cipher-help-content")
-
-      this.elements.bee_mode_help_launcherButton = new Button(
-        "foursquare-cipher-help-launcher-button",
-        null,
-        (event) => {
-          this.elements.bee_mode_help_background.makeVisible("block")
-          this.elements.bee_mode_help_background.underlying.style.display = "block"
-        },
-      )
-
-      this.elements.bee_mode_help_close_button = new Button(
-        "foursquare-cipher-help-close-button",
-        null,
-        (event) => {
-          this.elements.bee_mode_help_background.makeInvisible()
-        },
-      )
-
-      // ----------------------------------------------------------------
       this.elements.pattern_mode_help_background  = new GenericElement("vigenere-cipher-help-background")
-      this.elements.pattern_mode_help_content  = new GenericElement("vigenere-cipher-help-content")
+      this.elements.shift_cipher_help_content  = new GenericElement("vigenere-cipher-help-content")
 
       this.elements.pattern_mode_help_launcherButton = new Button(
         "vigenere-cipher-help-launcher-button",
@@ -968,7 +903,7 @@
 
       // ----------------------------------------------------------------
       this.elements.anagram_mode_help_background  = new GenericElement("playfair-cipher-help-background")
-      this.elements.anagram_mode_help_content  = new GenericElement("playfair-cipher-help-content")
+      this.elements.permutation_cipher_help_content  = new GenericElement("playfair-cipher-help-content")
 
       this.elements.anagram_mode_help_launcherButton = new Button(
         "playfair-cipher-help-launcher-button",
@@ -989,7 +924,7 @@
 
       // ----------------------------------------------------------------
       this.elements.random_word_mode_help_background  = new GenericElement("shift-cipher-help-background")
-      this.elements.random_word_mode_help_content  = new GenericElement("shift-cipher-help-content")
+      this.elements.vigenere_cipher_help_content  = new GenericElement("shift-cipher-help-content")
 
       this.elements.random_word_mode_help_launcherButton = new Button(
         "shift-cipher-help-launcher-button",
@@ -1030,10 +965,32 @@
       )
 
       // ----------------------------------------------------------------
+
+      this.elements.foursquare_cipher_help_background  = new GenericElement("foursquare-cipher-help-background")
+      this.elements.foursquare_cipher_help_content  = new GenericElement("foursquare-cipher-help-content")
+
+      this.elements.foursquare_cipher_help_launcherButton = new Button(
+        "foursquare-cipher-help-launcher-button",
+        null,
+        (event) => {
+          this.elements.foursquare_cipher_help_background.makeVisible("block")
+          this.elements.foursquare_cipher_help_background.underlying.style.display = "block"
+        },
+      )
+
+      this.elements.foursquare_cipher_help_close_button = new Button(
+        "foursquare-cipher-help-close-button",
+        null,
+        (event) => {
+          this.elements.foursquare_cipher_help_background.makeInvisible()
+        },
+      )
+
+      // ----------------------------------------------------------------
       // This is a hack to get the escape key to close the help modal on desktop.
       document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
-          window.app.elements.bee_mode_help_background.makeInvisible()
+          window.app.elements.foursquare_cipher_help_background.makeInvisible()
           window.app.elements.pattern_mode_help_background.makeInvisible()
           window.app.elements.anagram_mode_help_background.makeInvisible()
           window.app.elements.random_word_mode_help_background.makeInvisible()
@@ -1049,30 +1006,34 @@
         (event) => {
           document.body.style.backgroundColor = "white"
           document.body.style.color = "black"
-          this.elements.bee_mode_help_content.underlying.style.backgroundColor         = "white"
-          this.elements.bee_mode_help_content.underlying.style.color                   = "black"
-          this.elements.pattern_mode_help_content.underlying.style.backgroundColor     = "white"
-          this.elements.pattern_mode_help_content.underlying.style.color               = "black"
-          this.elements.anagram_mode_help_content.underlying.style.backgroundColor     = "white"
-          this.elements.anagram_mode_help_content.underlying.style.color               = "black"
-          this.elements.random_word_mode_help_content.underlying.style.backgroundColor = "white"
-          this.elements.random_word_mode_help_content.underlying.style.color           = "black"
-          this.elements.permutation_cipher_help_content.underlying.style.backgroundColor       = "white"
-          this.elements.permutation_cipher_help_content.underlying.style.color                 = "black"
+
+          this.elements.shift_cipher_help_content.underlying.style.backgroundColor       = "white"
+          this.elements.shift_cipher_help_content.underlying.style.color                 = "black"
+          this.elements.permutation_cipher_help_content.underlying.style.backgroundColor = "white"
+          this.elements.permutation_cipher_help_content.underlying.style.color           = "black"
+          this.elements.vigenere_cipher_help_content.underlying.style.backgroundColor    = "white"
+          this.elements.vigenere_cipher_help_content.underlying.style.color              = "black"
+          this.elements.playfair_cipher_help_content.underlying.style.backgroundColor    = "white"
+          this.elements.playfair_cipher_help_content.underlying.style.color              = "black"
+          this.elements.foursquare_cipher_help_content.underlying.style.backgroundColor  = "white"
+          this.elements.foursquare_cipher_help_content.underlying.style.color            = "black"
+
         },
         (event) => {
           document.body.style.backgroundColor = "black"
           document.body.style.color = "white"
-          this.elements.bee_mode_help_content.underlying.style.backgroundColor         = "black"
-          this.elements.bee_mode_help_content.underlying.style.color                   = "white"
-          this.elements.pattern_mode_help_content.underlying.style.backgroundColor     = "black"
-          this.elements.pattern_mode_help_content.underlying.style.color               = "white"
-          this.elements.anagram_mode_help_content.underlying.style.backgroundColor     = "black"
-          this.elements.anagram_mode_help_content.underlying.style.color               = "white"
-          this.elements.random_word_mode_help_content.underlying.style.backgroundColor = "black"
-          this.elements.random_word_mode_help_content.underlying.style.color           = "white"
-          this.elements.permutation_cipher_help_content.underlying.style.backgroundColor       = "black"
-          this.elements.permutation_cipher_help_content.underlying.style.color                 = "white"
+
+          this.elements.shift_cipher_help_content.underlying.style.backgroundColor       = "black"
+          this.elements.shift_cipher_help_content.underlying.style.color                 = "white"
+          this.elements.permutation_cipher_help_content.underlying.style.backgroundColor = "black"
+          this.elements.permutation_cipher_help_content.underlying.style.color           = "white"
+          this.elements.vigenere_cipher_help_content.underlying.style.backgroundColor    = "black"
+          this.elements.vigenere_cipher_help_content.underlying.style.color              = "white"
+          this.elements.playfair_cipher_help_content.underlying.style.backgroundColor    = "black"
+          this.elements.playfair_cipher_help_content.underlying.style.color              = "white"
+          this.elements.foursquare_cipher_help_content.underlying.style.backgroundColor  = "black"
+          this.elements.foursquare_cipher_help_content.underlying.style.color            = "white"
+
         },
       )
 
