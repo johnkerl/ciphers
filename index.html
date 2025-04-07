@@ -285,11 +285,11 @@
   <tr id="encrypt-decrypt-row">
     <td colspan=3>
       <span>
-        <input type="radio" id="encrypt" name="drone" value="encrypt" checked />
+        <input type="radio" id="encrypt-button" name="direction" value="encrypt" checked />
         <label for="encrypt">Encrypt</label>
       </span>
       <span>
-        <input type="radio" id="decrypt" name="drone" value="decrypt" />
+        <input type="radio" id="decrypt-button" name="direction" value="decrypt" />
         <label for="decrypt">Decrypt</label>
       </span>
     </td>
@@ -315,20 +315,42 @@
       <select tabindex=3 id="shift-letter-dropdown" class="fixed-width-font">
         <option value="A">A (no encryption)</option>
         <option value="B">B</option>
-        <option value="C">C (Caesar)</option>
+        <option value="C" selected>C (Caesar)</option>
+        <option value="D">D</option>
+        <option value="E">E</option>
+        <option value="F">F</option>
+        <option value="G">G</option>
+        <option value="H">H</option>
+        <option value="I">I</option>
+        <option value="J">J</option>
+        <option value="K">K</option>
+        <option value="L">L</option>
+        <option value="M">M</option>
         <option value="N">N (Rot13)</option>
+        <option value="O">O</option>
+        <option value="P">P</option>
+        <option value="Q">Q</option>
+        <option value="R">R</option>
+        <option value="S">S</option>
+        <option value="T">T</option>
+        <option value="U">U</option>
+        <option value="V">V</option>
+        <option value="W">W</option>
+        <option value="X">X</option>
+        <option value="Y">Y</option>
+        <option value="Z">Z</option>
       </select>
     </td>
 
   </tr>
 
   <tr id="permutation-keytext-row">
-    <td> &nbsp; </td>
+    <td> <i>Under construction</i> </td>
     <td> &nbsp; </td>
   </tr>
 
   <tr id="vigenere-keytext-row">
-    <td> &nbsp; </td>
+    <td> <i>Under construction</i> </td>
     <td> &nbsp; </td>
   </tr>
 
@@ -350,7 +372,7 @@
         placeholder="..."
         size=40
         id="input-text"
-        class="fixed-width-text"
+        class="fixed-width-text larger-input-text"
       >
     </td>
   </tr>
@@ -401,7 +423,7 @@
 
 <!-- ================================================================ -->
 
-<!-- Modal content -->
+<!-- Content for help-modals -->
 
 <div id="shift-cipher-help-background" class="modal-background">
   <div id="shift-cipher-help-content" class="modal-content">
@@ -471,9 +493,11 @@
 
   import {
     ConstrainedTextInput,
+    Dropdown,
     GenericElement,
     HelpWidgets,
     LightDarkThemeSlider,
+    RadioButtons,
     TextSpan,
     ToggleSlider,
     URLAndPersistentNButtonSwitcher,
@@ -481,6 +505,10 @@
     setErrorWidget,
   // } from "https://johnkerl.org/sliver/stable/sliver.js"
   } from "./sliver.js" // local copy
+
+  import {
+    shiftCrypt,
+  } from "./ciphers.js" // local copy
 
   // ----------------------------------------------------------------
   setErrorWidget("error-container", "error-text")
@@ -514,19 +542,22 @@
     setElementsAndCallbacks() {
       this.elements = {}
 
+      this.elements.shiftLetterDropdown = new Dropdown(
+        "shift-letter-dropdown",
+        (event) => { this.appShiftCrypt() },
+      )
+
       this.elements.outputElement = new TextSpan("output", "")
 
       this.elements.inputTextElement = new ConstrainedTextInput(
         "input-text",
         (text) => text.toUpperCase(),
-        (event) => {
-          // Need:
-          // * shiftCrypt function
-          //   o arg: input text
-          //   o arg: shift letter
-          //   o arg: enc/dec
-          //this.elements.outputElement.set("foo")
-        }
+        (event) => { this.appShiftCrypt() }
+      )
+
+      this.elements.encryptDecryptRadioButtons = new RadioButtons(
+        ["encrypt-button", "decrypt-button"],
+        (newValue) => { this.appShiftCrypt() }
       )
 
 //      // foursquare-cipher element
@@ -857,6 +888,18 @@
         },
       )
 
+    }
+
+    appShiftCrypt() {
+      const inputText = this.elements.inputTextElement.get()
+      const shiftLetter = this.elements.shiftLetterDropdown.get()
+      const direction = this.elements.encryptDecryptRadioButtons.get()
+      this.logAt2("inputText", inputText)
+      this.logAt2("shiftLetter", shiftLetter)
+      this.logAt2("direction", direction)
+      const output = shiftCrypt(inputText, shiftLetter, direction)
+      this.logAt2("output", output)
+      this.elements.outputElement.set(output)
     }
 
     // ----------------------------------------------------------------

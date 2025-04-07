@@ -752,11 +752,11 @@ export class NButtonToggler {
     } else {
       throw new Error("Internal coding error detected")
     }
-    Object.keys(this.visibilities).forEach((otherButtonID) => {
+    for (const otherButtonID in this.visibilities) {
       if (otherButtonID != buttonID) {
         this.hideButtonContents(otherButtonID)
       }
-    })
+    }
   }
 
   // Not used as of this writing (2025-01-11), although it seems
@@ -773,15 +773,15 @@ export class NButtonToggler {
   }
 
   expandAll() {
-    Object.keys(this.visibilities).forEach((buttonID) => {
+    for (const buttonID in this.visibilities) {
       this.showButtonContents(buttonID)
-    })
+    }
   }
 
   collapseAll() {
-    Object.keys(this.visibilities).forEach((buttonID) => {
+    for (const buttonID in this.visibilities) {
       this.hideButtonContents(buttonID)
-    })
+    }
   }
 
 }
@@ -1070,7 +1070,7 @@ export class RangeFloatSlider extends GenericElement {
 
     // Return the range-slider value
     this.underlying.addEventListener(
-      'input',
+      "input",
       (event) => {
         this.set(this.get())
         return this.callback(this.get())
@@ -1087,6 +1087,39 @@ export class RangeFloatSlider extends GenericElement {
     if (this.valueDisplayElement != null) {
       this.valueDisplayElement.set(this.valueDisplayFormatter(this.get()))
     }
+  }
+}
+
+// ----------------------------------------------------------------
+export class RadioButtons {
+  constructor(
+    elementIDs,
+    callback,
+  ) {
+    this.elements = {}
+    this.callback = callback
+
+    elementIDs.forEach((elementID) => {
+      let element = new GenericElement(elementID)
+      element.underlying.addEventListener(
+        "change",
+        (event) => {
+          return this.callback(event.target.value)
+        }
+      )
+      this.elements[elementID] = element
+
+    })
+  }
+
+  get() {
+    for (const elementID in this.elements) {
+      const element = this.elements[elementID]
+      if (element.underlying.checked) {
+        return element.underlying.value
+      }
+    }
+    return null
   }
 }
 
