@@ -273,8 +273,8 @@
 <fieldset class="rounded">
   <legend>
     <button id="shift-cipher-button" class="no-margin"> Loading ... </button>
-    <button id="permutation-cipher-button" class="no-margin"> Loading ... </button>
     <button id="vigenere-cipher-button" class="no-margin"> Loading ... </button>
+    <button id="permutation-cipher-button" class="no-margin"> Loading ... </button>
     <!--
     <button id="playfair-cipher-button" class="no-margin"> Loading ... </button>
     <button id="foursquare-cipher-button" class="no-margin"> Loading ... </button>
@@ -295,27 +295,15 @@
     </td>
   </tr>
 
-  <!--
-  KEYTEXT ROW
-  o shift letter
-    - and resetter to C
-  o permutation set
-    - and the permutation-ok
-    - and resetter to identity
-    - and scramble
-  o vigenere keytext
-    - and clear
-    - and example
-  -->
-
   <tr id="shift-keytext-row">
+    <td> &nbsp;</td>
     <td> Shift letter: </td>
 
     <td>
       <select tabindex=3 id="shift-letter-dropdown" class="fixed-width-font">
         <option value="A">A (no encryption)</option>
         <option value="B">B</option>
-        <option value="C" selected>C (Caesar)</option>
+        <option value="C" selected>C (Caesar cipher)</option>
         <option value="D">D</option>
         <option value="E">E</option>
         <option value="F">F</option>
@@ -344,8 +332,28 @@
 
   </tr>
 
+  <tr id="vigenere-keytext-row">
+    <td>
+      <span>
+        <button class="maroon" id="vigenere-keytext-clear-button">Clear</button>
+        <button class="maroon" id="vigenere-keytext-generate-example-button">Example</button>
+      </span>
+    </td>
+    <td> Keytext: </td>
+    <td>
+      <input
+        type=text
+        placeholder="..."
+        size=26
+        id="vigenere-keytext"
+        class="fixed-width-text larger-input-text"
+      >
+    </td>
+  </tr>
+
   <tr id="permutation-keytext-row">
-    <td> <i>(Under construction)</i> Keytext: </td>
+    <td> <i>(Under construction)</i> </td>
+    <td> Permutation of A-Z: </td>
     <td class="fixed-width-text"> 
       <input
         type=text
@@ -357,37 +365,19 @@
     </td>
   </tr>
 
-  <tr id="vigenere-keytext-row">
-    <td> <i>(Under construction)</i> Keytext: </td>
-    <td class="fixed-width-text"> 
-      <input
-        type=text
-        placeholder="..."
-        size=26
-        id="vigenere-keytext"
-        class="fixed-width-text larger-input-text"
-      >
-    </td>
-    <td> &nbsp; </td>
-  </tr>
-
-  <!--
-  PLAINTEXT ROW
-  o fwd/rev toggle
-  o PT/CT label
-  o CT/PT label
-  o input text
-  o output text
-  -->
-
   <tr id="input-text-row">
-
-    <td> Plaintext: </td>
+    <td>
+      <span>
+        <button class="maroon" id="input-text-clear-button">Clear</button>
+        <button class="maroon" id="input-text-generate-example-button">Example</button>
+      </span>
+    </td>
+    <td> <span id="input-text-label"> Plaintext: </td>
     <td class="fixed-width-text"> 
       <input
         type=text
         placeholder="..."
-        size=40
+        size=50
         id="input-text"
         class="fixed-width-text larger-input-text"
       >
@@ -395,7 +385,8 @@
   </tr>
 
   <tr id="output-text-row">
-    <td> Ciphertext: </td>
+    <td> &nbsp; </td>
+    <td> <span id="output-text-label"> Ciphertext: </td>
     <td>
       <span id="output" class="fixed-width-text" style="display:block"> Loading ... </span>
     </td>
@@ -405,8 +396,8 @@
     <td>
       <div>
         <button id="shift-cipher-help-launcher-button"> Help </button>
-        <button id="permutation-cipher-help-launcher-button"> Help </button>
         <button id="vigenere-cipher-help-launcher-button"> Help </button>
+        <button id="permutation-cipher-help-launcher-button"> Help </button>
         <!--
         <button id="playfair-cipher-help-launcher-button"> Help </button>
         <button id="foursquare-cipher-help-launcher-button"> Help </button>
@@ -454,18 +445,6 @@
   </div>
 </div>
 
-<div id="permutation-cipher-help-background" class="modal-background">
-  <div id="permutation-cipher-help-content" class="modal-content">
-    <div>
-      <button id="permutation-cipher-help-close-button" class="general white-on-green" > Close </button>
-    </div>
-    <div>
-    <p class="maroon">Help for the permutation cipher:</p>
-    <p>Lorem ipsum.
-    </div>
-  </div>
-</div>
-
 <div id="vigenere-cipher-help-background" class="modal-background">
   <div id="vigenere-cipher-help-content" class="modal-content">
     <div>
@@ -473,6 +452,18 @@
     </div>
     <div>
     <p class="maroon">Help for pattern cipher:</p>
+    <p>Lorem ipsum.
+    </div>
+  </div>
+</div>
+
+<div id="permutation-cipher-help-background" class="modal-background">
+  <div id="permutation-cipher-help-content" class="modal-content">
+    <div>
+      <button id="permutation-cipher-help-close-button" class="general white-on-green" > Close </button>
+    </div>
+    <div>
+    <p class="maroon">Help for the permutation cipher:</p>
     <p>Lorem ipsum.
     </div>
   </div>
@@ -509,6 +500,7 @@
   'use strict';
 
   import {
+    Button,
     ConstrainedTextInput,
     Dropdown,
     GenericElement,
@@ -553,6 +545,27 @@
         (event) => { this.appShiftCrypt() },
       )
 
+      this.elements.inputTextClearButton = new Button(
+        "input-text-clear-button",
+        null,
+        (event) => {
+          this.elements.inputTextElement.set("")
+          this.appCrypt()
+        },
+      )
+
+      this.elements.inputTextGenerateExampleButton = new Button(
+        "input-text-generate-example-button",
+        null,
+        (event) => {
+          this.elements.inputTextElement.set("THE QUICK BROWN FOX JUMPS OVER THE LAZY DOGS")
+          this.appCrypt()
+        },
+      )
+
+      this.elements.inputTextLabel = new TextSpan("input-text-label", "Plaintext:")
+      this.elements.outputTextLabel = new TextSpan("output-text-label", "Ciphertext:")
+
       this.elements.outputElement = new TextSpan("output", "")
 
       this.elements.inputTextElement = new ConstrainedTextInput(
@@ -563,7 +576,36 @@
 
       this.elements.encryptDecryptRadioButtons = new RadioButtons(
         ["encrypt-button", "decrypt-button"],
-        (newValue) => { this.appCrypt() }
+        (newValue) => {
+          if (newValue == "encrypt") {
+            this.elements.inputTextLabel.set("Plaintext:")
+            this.elements.outputTextLabel.set("Ciphertext:")
+          } else if (newValue == "decrypt") {
+            this.elements.inputTextLabel.set("Ciphertext:")
+            this.elements.outputTextLabel.set("Plaintext:")
+          } else {
+            throw new Error("Internal coding error: direction", newValue)
+          }
+          this.appCrypt()
+        }
+      )
+
+      this.elements.vigenereKeytextClearButton = new Button(
+        "vigenere-keytext-clear-button",
+        null,
+        (event) => {
+          this.elements.vigenereKeyTextElement.set("")
+          this.appCrypt()
+        },
+      )
+
+      this.elements.vigenereKeytextGenerateExampleButton = new Button(
+        "vigenere-keytext-generate-example-button",
+        null,
+        (event) => {
+          this.elements.vigenereKeyTextElement.set("SHAREMENOT")
+          this.appCrypt()
+        },
       )
 
       this.elements.vigenereKeyTextElement = new ConstrainedTextInput(
@@ -581,6 +623,7 @@
               new GenericElement("shift-cipher-help-launcher-button"),
             ],
             "callback": () => {
+              this.appCrypt()
               // The tab button being clicked gets the focus.
               // So we have to delay.
               // this.elements.shiftCipherButton.focus()
@@ -594,29 +637,6 @@
             "urlShorthand": "shift",
           },
 
-          "permutation-cipher-button": {
-            "text": "Permutation",
-            "items": [
-              new GenericElement("permutation-keytext-row"),
-              new GenericElement("permutation-cipher-help-launcher-button"),
-            ],
-            "callback": () => {
-              this.logAt0("swtich to permutation cipher")
-
-              // The tab button being clicked gets the focus.
-              // So we have to delay.
-              // this.elements.ngramGenerateButton.focus()
-              setTimeout(
-                () => {
-                  //this.elements.ngramGenerateButton.focus()
-                },
-                200,
-              )
-
-            },
-            "urlShorthand": "permutation",
-          },
-
           "vigenere-cipher-button": {
             "text": "Vigenère",
             "items": [
@@ -624,6 +644,7 @@
               new GenericElement("vigenere-cipher-help-launcher-button"),
             ],
             "callback": () => {
+              this.appCrypt()
 
               // The tab button being clicked gets the focus.
               // So we have to delay.
@@ -640,51 +661,29 @@
             "urlShorthand": "vigenere",
           },
 
-//          "playfair-cipher-button": {
-//            "text": "Playfair",
-//            "items": [
-//              new GenericElement("playfair-cipher-row-1"),
-//              new GenericElement("playfair-cipher-help-launcher-button"),
-//            ],
-//            "callback": () => {
-//
-//              // The tab button being clicked gets the focus.
-//              // So we have to delay.
-//              // this.elements.anagramLettersElement.focus()
-//              setTimeout(
-//                () => {
-//                  //this.elements.anagramLettersElement.focus()
-//                },
-//                200,
-//              )
-//
-//            },
-//            "urlShorthand": "playfair",
-//          },
+          "permutation-cipher-button": {
+            "text": "Permutation",
+            "items": [
+              new GenericElement("permutation-keytext-row"),
+              new GenericElement("permutation-cipher-help-launcher-button"),
+            ],
+            "callback": () => {
+              this.logAt0("swtich to permutation cipher")
+              this.appCrypt()
 
-//          "foursquare-cipher-button": {
-//            "text": "Foursquare",
-//            "items": [
-//              new GenericElement("foursquare-cipher-row-1"),
-//              new GenericElement("foursquare-cipher-row-2"),
-//              new GenericElement("foursquare-cipher-row-3"),
-//              new GenericElement("foursquare-cipher-help-launcher-button"),
-//            ],
-//            "callback": () => {
-//
-//              // The tab button being clicked gets the focus.
-//              // So we have to delay.
-//              // this.elements.requiredLettersElement.focus()
-//              setTimeout(
-//                () => {
-//                  //this.elements.requiredLettersElement.focus()
-//                },
-//                200,
-//              )
-//
-//            },
-//            "urlShorthand": "foursquare",
-//          },
+              // The tab button being clicked gets the focus.
+              // So we have to delay.
+              // this.elements.ngramGenerateButton.focus()
+              setTimeout(
+                () => {
+                  //this.elements.ngramGenerateButton.focus()
+                },
+                200,
+              )
+
+            },
+            "urlShorthand": "permutation",
+          },
 
         },
         "selected",   // CSS style class
@@ -701,18 +700,18 @@
         "shift-cipher-help-close-button",
       )
 
-      this.elements.help.permutation = new HelpWidgets(
-        "permutation-cipher-help-background",
-        "permutation-cipher-help-content",
-        "permutation-cipher-help-launcher-button",
-        "permutation-cipher-help-close-button",
-      )
-
       this.elements.help.vigenere = new HelpWidgets(
         "vigenere-cipher-help-background",
         "vigenere-cipher-help-content",
         "vigenere-cipher-help-launcher-button",
         "vigenere-cipher-help-close-button",
+      )
+
+      this.elements.help.permutation = new HelpWidgets(
+        "permutation-cipher-help-background",
+        "permutation-cipher-help-content",
+        "permutation-cipher-help-launcher-button",
+        "permutation-cipher-help-close-button",
       )
 
 //      this.elements.help.playfair = new HelpWidgets(
@@ -767,6 +766,11 @@
     }
 
     appCrypt() {
+      if (this.elements.cipherButtons == null) {
+        // Initialization
+        return
+      }
+
       const which = this.elements.cipherButtons.which()
       if (which == "shift-cipher-button") {
         this.appShiftCrypt()
