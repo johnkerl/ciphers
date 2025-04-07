@@ -63,6 +63,11 @@
     border-radius: 4px;
   }
 
+  .fixed-width-text {
+    font-family: "Courier";
+    font-weight: bold;
+  }
+
   .larger-input-text {
     /* font-size: 100%; */
     font-size: 0.8em;
@@ -262,146 +267,83 @@
   <span id="error-text"> </span>
 </span>
 
+<!-- ................................................................ -->
+
 <!-- fieldset allows a nice legend, of which I enjoy the styling -->
 <fieldset class="rounded">
   <legend>
     <button id="shift-cipher-button" class="no-margin"> Loading ... </button>
     <button id="permutation-cipher-button" class="no-margin"> Loading ... </button>
     <button id="vigenere-cipher-button" class="no-margin"> Loading ... </button>
+    <!--
     <button id="playfair-cipher-button" class="no-margin"> Loading ... </button>
     <button id="foursquare-cipher-button" class="no-margin"> Loading ... </button>
+    -->
   </legend>
   <table>
 
-  <!-- Row for Foursquare cipher -->
-  <tr id="foursquare-cipher-row-1">
-    <td> <button class="maroon" id="clear-letters-button"> Loading ... </button> </td>
-    <td>
-      <input
-        type=text
-        tabindex=1
-        placeholder="..."
-        size=10
-        autocapitalize="characters"
-        id="foursquare-cipher-required-letters"
-        class="larger-input-text"
-      >
-    </td>
-    <td>&nbsp;</td>
-    <td class="smallertext"> Required letter(s) </td>
-  </tr>
+  <!--
+  KEYTEXT ROW
+  o shift letter
+    - and resetter to C
+  o permutation set
+    - and the permutation-ok
+    - and resetter to identity
+    - and scramble
+  o vigenere keytext
+    - and clear
+    - and example
+  -->
 
-  <!-- Row for Foursquare cipher -->
-  <tr id="foursquare-cipher-row-2">
-    <td> <button class="maroon" id="example-button">Loading ...</button> </td>
-    <td>
-      <input
-        type=text
-        tabindex=2
-        placeholder="..."
-        size=10
-        autocapitalize="characters"
-        id="foursquare-cipher-other-letters"
-        class="larger-input-text"
-      >
-    </td>
-    <td>&nbsp;</td>
-    <td class="smallertext"> Other letter(s) </td>
-  </tr>
-
-  <!-- Row for Foursquare cipher -->
-  <tr id="foursquare-cipher-row-3">
-    <td> <button class="maroon" id="all-others-button">Loading ...</button> </td>
+  <tr id="shift-keytext-row">
     <td> &nbsp; </td>
-    <td>&nbsp;</td>
+    <td> Shift letter: </td>
+    <td class="fixed-width-text"> C </td>
+  </tr>
+
+  <tr id="permutation-keytext-row">
+    <td> &nbsp; </td>
+    <td> &nbsp; </td>
     <td> &nbsp; </td>
   </tr>
 
-  <!-- Row for pattern cipher -->
-  <tr id="vigenere-cipher-row-1">
-    <td> <button class="maroon" id="pattern-clear-letters-button"> Loading ... </button> </td>
-    <td>
-      <input
-        type=text
-        tabindex=1
-        placeholder="..."
-        size=10
-        id="vigenere-cipher-letters"
-        class="larger-input-text"
-      >
-    </td>
+  <tr id="vigenere-keytext-row">
     <td> &nbsp; </td>
-    <td class="smallertext"> Letters, including <code>.</code> and <code>*</code> </td>
+    <td> &nbsp; </td>
+    <td> &nbsp; </td>
   </tr>
 
-  <!-- Row for anagram cipher -->
-  <tr id="playfair-cipher-row-1">
-    <td> <button class="maroon" id="anagram-clear-letters-button"> Loading ... </button> </td>
-    <td>
-      <input
-        type=text
-        tabindex=1
-        placeholder="..."
-        size=10
-        id="playfair-cipher-letters"
-        class="larger-input-text"
-      >
-    </td>
+  <!--
+  PLAINTEXT ROW
+  o fwd/rev toggle
+  o PT/CT label
+  o CT/PT label
+  o input text
+  o output text
+  -->
+
+  <tr id="input-text-row">
     <td> &nbsp; </td>
-    <td class="smallertext"> Letters </td>
+    <td> PT/CT </td>
+    <td class="fixed-width-text"> lALAL </td>
   </tr>
 
-  <!-- Row for shift cipher -->
-  <tr id="shift-cipher-row-1">
-    <td> <button class="maroon" id="shift-generate-button"> Loading ... </button> </td>
-    <td style="width:3em">
-      <input type="number" id="shift-count" style="width:5ch">
-    </td>
+  <tr id="output-text-row">
     <td> &nbsp; </td>
-    <td class="smallertext"> Word count </td>
-  </tr>
-
-  <!-- Row for permutation cipher -->
-  <tr id="permutation-cipher-row-1">
-    <td> <button class="maroon" id="permutation-generate-button"> Loading ... </button> </td>
-    <td style="width:3em">
-      <input type="number" id="permutation-word-count-input" style="width:5ch">
-    </td>
-    <td> &nbsp; </td>
-    <td class="smallertext"> Word count </td>
-  </tr>
-
-  <!-- Row for permutation cipher -->
-  <tr id="permutation-cipher-row-2">
-    <td> &nbsp; </td>
-    <td style="width:3em">
-      <input type="number" id="permutation-n-input" style="width:3ch">
-    </td>
-    <td> &nbsp; </td>
-    <td class="smallertext"> The <i>n</i> in <i>n</i>-gram </td>
-  </tr>
-
-  <!-- Min/max word lengths used by bee and pattern ciphers, but not anagram cipher or shift or permutation -->
-  <tr id="match-lengths-row">
-    <td> <button class="maroon" id="reset-match-lengths-button"> Reset </button> </td>
-    <td>
-      <span>
-        <input tabindex=4 type="number" id="min-match-length" name="min-match-length" style="width:4ch">
-        <input tabindex=5 type="number" id="max-match-length" name="max-match-length" style="width:4ch">
-      </span>
-    </td>
-    <td>&nbsp;</td>
-    <td class="smallertext"> <label>Min/max word lengths</label> </td>
+    <td> CT/PT </td>
+    <td class="fixed-width-text"> BXBXB </td>
   </tr>
 
   <tr>
     <td>
       <div>
-        <button id="foursquare-cipher-help-launcher-button"> Help </button>
-        <button id="vigenere-cipher-help-launcher-button"> Help </button>
-        <button id="playfair-cipher-help-launcher-button"> Help </button>
         <button id="shift-cipher-help-launcher-button"> Help </button>
         <button id="permutation-cipher-help-launcher-button"> Help </button>
+        <button id="vigenere-cipher-help-launcher-button"> Help </button>
+        <!--
+        <button id="playfair-cipher-help-launcher-button"> Help </button>
+        <button id="foursquare-cipher-help-launcher-button"> Help </button>
+        -->
       </div>
     </td>
     <td> &nbsp; </td>
@@ -470,6 +412,7 @@
   </div>
 </div>
 
+<!--
 <div id="playfair-cipher-help-background" class="modal-background">
   <div id="playfair-cipher-help-content" class="modal-content">
     <div>
@@ -493,6 +436,7 @@
     </div>
   </div>
 </div>
+-->
 
 <!-- ================================================================ -->
 <script type=module>
@@ -754,7 +698,7 @@
           "shift-cipher-button": {
             "text": "Shift",
             "items": [
-              new GenericElement("shift-cipher-row-1"),
+              new GenericElement("shift-keytext-row"),
               new GenericElement("shift-cipher-help-launcher-button"),
             ],
             "callback": () => {
@@ -774,8 +718,7 @@
           "permutation-cipher-button": {
             "text": "Permutation",
             "items": [
-              new GenericElement("permutation-cipher-row-1"),
-              new GenericElement("permutation-cipher-row-2"),
+              new GenericElement("permutation-keytext-row"),
               new GenericElement("permutation-cipher-help-launcher-button"),
             ],
             "callback": () => {
@@ -798,7 +741,7 @@
           "vigenere-cipher-button": {
             "text": "Vigenère",
             "items": [
-              new GenericElement("vigenere-cipher-row-1"),
+              new GenericElement("vigenere-keytext-row"),
               new GenericElement("vigenere-cipher-help-launcher-button"),
             ],
             "callback": () => {
@@ -818,51 +761,51 @@
             "urlShorthand": "vigenere",
           },
 
-          "playfair-cipher-button": {
-            "text": "Playfair",
-            "items": [
-              new GenericElement("playfair-cipher-row-1"),
-              new GenericElement("playfair-cipher-help-launcher-button"),
-            ],
-            "callback": () => {
+//          "playfair-cipher-button": {
+//            "text": "Playfair",
+//            "items": [
+//              new GenericElement("playfair-cipher-row-1"),
+//              new GenericElement("playfair-cipher-help-launcher-button"),
+//            ],
+//            "callback": () => {
+//
+//              // The tab button being clicked gets the focus.
+//              // So we have to delay.
+//              // this.elements.anagramLettersElement.focus()
+//              setTimeout(
+//                () => {
+//                  //this.elements.anagramLettersElement.focus()
+//                },
+//                200,
+//              )
+//
+//            },
+//            "urlShorthand": "playfair",
+//          },
 
-              // The tab button being clicked gets the focus.
-              // So we have to delay.
-              // this.elements.anagramLettersElement.focus()
-              setTimeout(
-                () => {
-                  //this.elements.anagramLettersElement.focus()
-                },
-                200,
-              )
-
-            },
-            "urlShorthand": "playfair",
-          },
-
-          "foursquare-cipher-button": {
-            "text": "Foursquare",
-            "items": [
-              new GenericElement("foursquare-cipher-row-1"),
-              new GenericElement("foursquare-cipher-row-2"),
-              new GenericElement("foursquare-cipher-row-3"),
-              new GenericElement("foursquare-cipher-help-launcher-button"),
-            ],
-            "callback": () => {
-
-              // The tab button being clicked gets the focus.
-              // So we have to delay.
-              // this.elements.requiredLettersElement.focus()
-              setTimeout(
-                () => {
-                  //this.elements.requiredLettersElement.focus()
-                },
-                200,
-              )
-
-            },
-            "urlShorthand": "foursquare",
-          },
+//          "foursquare-cipher-button": {
+//            "text": "Foursquare",
+//            "items": [
+//              new GenericElement("foursquare-cipher-row-1"),
+//              new GenericElement("foursquare-cipher-row-2"),
+//              new GenericElement("foursquare-cipher-row-3"),
+//              new GenericElement("foursquare-cipher-help-launcher-button"),
+//            ],
+//            "callback": () => {
+//
+//              // The tab button being clicked gets the focus.
+//              // So we have to delay.
+//              // this.elements.requiredLettersElement.focus()
+//              setTimeout(
+//                () => {
+//                  //this.elements.requiredLettersElement.focus()
+//                },
+//                200,
+//              )
+//
+//            },
+//            "urlShorthand": "foursquare",
+//          },
 
         },
         "selected",   // CSS style class
@@ -893,19 +836,19 @@
         "vigenere-cipher-help-close-button",
       )
 
-      this.elements.help.playfair = new HelpWidgets(
-        "playfair-cipher-help-background",
-        "playfair-cipher-help-content",
-        "playfair-cipher-help-launcher-button",
-        "playfair-cipher-help-close-button",
-      )
+//      this.elements.help.playfair = new HelpWidgets(
+//        "playfair-cipher-help-background",
+//        "playfair-cipher-help-content",
+//        "playfair-cipher-help-launcher-button",
+//        "playfair-cipher-help-close-button",
+//      )
 
-      this.elements.help.foursquare = new HelpWidgets(
-        "foursquare-cipher-help-background",
-        "foursquare-cipher-help-content",
-        "foursquare-cipher-help-launcher-button",
-        "foursquare-cipher-help-close-button",
-      )
+//      this.elements.help.foursquare = new HelpWidgets(
+//        "foursquare-cipher-help-background",
+//        "foursquare-cipher-help-content",
+//        "foursquare-cipher-help-launcher-button",
+//        "foursquare-cipher-help-close-button",
+//      )
 
       // ----------------------------------------------------------------
       // This is a hack to get the escape key to close the help modal on desktop.
