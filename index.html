@@ -282,6 +282,19 @@
   </legend>
   <table>
 
+  <tr id="encrypt-decrypt-row">
+    <td colspan=3>
+      <span>
+        <input type="radio" id="encrypt" name="drone" value="encrypt" checked />
+        <label for="encrypt">Encrypt</label>
+      </span>
+      <span>
+        <input type="radio" id="decrypt" name="drone" value="decrypt" />
+        <label for="decrypt">Decrypt</label>
+      </span>
+    </td>
+  </tr>
+
   <!--
   KEYTEXT ROW
   o shift letter
@@ -296,19 +309,25 @@
   -->
 
   <tr id="shift-keytext-row">
-    <td> &nbsp; </td>
     <td> Shift letter: </td>
-    <td class="fixed-width-text"> C </td>
+
+    <td>
+      <select tabindex=3 id="shift-letter-dropdown" class="fixed-width-font">
+        <option value="A">A (no encryption)</option>
+        <option value="B">B</option>
+        <option value="C">C (Caesar)</option>
+        <option value="N">N (Rot13)</option>
+      </select>
+    </td>
+
   </tr>
 
   <tr id="permutation-keytext-row">
     <td> &nbsp; </td>
     <td> &nbsp; </td>
-    <td> &nbsp; </td>
   </tr>
 
   <tr id="vigenere-keytext-row">
-    <td> &nbsp; </td>
     <td> &nbsp; </td>
     <td> &nbsp; </td>
   </tr>
@@ -323,15 +342,24 @@
   -->
 
   <tr id="input-text-row">
-    <td> &nbsp; </td>
-    <td> PT/CT </td>
-    <td class="fixed-width-text"> lALAL </td>
+
+    <td> Plaintext: </td>
+    <td class="fixed-width-text"> 
+      <input
+        type=text
+        placeholder="..."
+        size=40
+        id="input-text"
+        class="fixed-width-text"
+      >
+    </td>
   </tr>
 
   <tr id="output-text-row">
-    <td> &nbsp; </td>
-    <td> CT/PT </td>
-    <td class="fixed-width-text"> BXBXB </td>
+    <td> Ciphertext: </td>
+    <td>
+      <span id="output" class="fixed-width-text" style="display:block"> Loading ... </span>
+    </td>
   </tr>
 
   <tr>
@@ -346,7 +374,6 @@
         -->
       </div>
     </td>
-    <td> &nbsp; </td>
     <td> &nbsp; </td>
   </tr>
 
@@ -443,16 +470,13 @@
   'use strict';
 
   import {
-    Button,
     ConstrainedTextInput,
     GenericElement,
     HelpWidgets,
-    IntRangeInput,
     LightDarkThemeSlider,
-    OneButtonSwitcher,
-    PersistentDropdown,
-    URLAndPersistentNButtonSwitcher,
     TextSpan,
+    ToggleSlider,
+    URLAndPersistentNButtonSwitcher,
     isInteger,
     setErrorWidget,
   // } from "https://johnkerl.org/sliver/stable/sliver.js"
@@ -490,72 +514,20 @@
     setElementsAndCallbacks() {
       this.elements = {}
 
-//      // foursquare-cipher element
-//      this.elements.requiredLettersElement = new ConstrainedTextInput(
-//        "foursquare-cipher-required-letters",
-//        (text) => text.toUpperCase(),
-//        //(text) => text,
-//        (event) => {
-//          this.logAt1("REQUIRED-LETTERS INPUT: <<", event.target.value, ">>")
-//          this.showFoursquareModeMatches()
-//      })
+      this.elements.outputElement = new TextSpan("output", "")
 
-//      // foursquare-cipher element
-//      this.elements.otherLettersElement = new ConstrainedTextInput(
-//        "foursquare-cipher-other-letters",
-//        (text) => text.toUpperCase(),
-//        //(text) => text,
-//        (event) => {
-//          this.logAt1("OTHER-LETTERS INPUT: <<", event.target.value, ">>")
-//          this.showFoursquareModeMatches()
-//      })
-
-//      // vigenere-cipher element
-//      this.elements.patternLettersElement = new ConstrainedTextInput(
-//        "vigenere-cipher-letters",
-//        //(text) => text.toUpperCase(),
-//        (text) => text,
-//        (event) => {
-//          this.logAt1("PATTERN-LETTERS INPUT: <<", event.target.value, ">>")
-//          this.showVigenereModeMatches()
-//      })
-
-//      // playfair-cipher element
-//      this.elements.anagramLettersElement = new ConstrainedTextInput(
-//        "playfair-cipher-letters",
-//        //(text) => text.toUpperCase(),
-//        (text) => text,
-//        (event) => {
-//          this.logAt1("ANAGRAM-LETTERS INPUT: <<", event.target.value, ">>")
-//          this.showPlayfairCipherMatches()
-//      })
-
-//      let minMatchLengthElement = new IntRangeInput(
-//        "min-match-length",
-//        this.state.defaultLowMatchLength, // default
-//        this.state.minMatchLength, // min
-//        this.state.maxMatchLength, // max
-//        (event) => {
-//          this.showMatches()
-//        },
-//      )
-
-//      let maxMatchLengthElement = new IntRangeInput(
-//        "max-match-length",
-//        this.state.defaultHighMatchLength, // default
-//        this.state.minMatchLength, // min
-//        this.state.maxMatchLength, // max
-//        (event) => {
-//          this.showMatches()
-//        },
-//      )
-
-//      // TODO: do this coupling at the class level -- IntRangeInputPair maybe -- with resetter
-//      minMatchLengthElement.setPeerMax(maxMatchLengthElement)
-//      maxMatchLengthElement.setPeerMin(minMatchLengthElement)
-
-//      this.elements.minMatchLengthElement = minMatchLengthElement
-//      this.elements.maxMatchLengthElement = maxMatchLengthElement
+      this.elements.inputTextElement = new ConstrainedTextInput(
+        "input-text",
+        (text) => text.toUpperCase(),
+        (event) => {
+          // Need:
+          // * shiftCrypt function
+          //   o arg: input text
+          //   o arg: shift letter
+          //   o arg: enc/dec
+          //this.elements.outputElement.set("foo")
+        }
+      )
 
 //      // foursquare-cipher element
 //      this.elements.clearLettersButton = new Button(
