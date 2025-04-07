@@ -502,6 +502,7 @@
     Button,
     ConstrainedTextInput,
     GenericElement,
+    HelpWidgets,
     IntRangeInput,
     LightDarkThemeSlider,
     OneButtonSwitcher,
@@ -779,20 +780,17 @@
             ],
             "callback": () => {
               this.logAt0("swtich to permutation cipher")
-              this.elements.matchLengthsRow.makeInvisible()
 
               // The tab button being clicked gets the focus.
               // So we have to delay.
               // this.elements.ngramGenerateButton.focus()
               setTimeout(
                 () => {
-                  this.elements.ngramGenerateButton.focus()
+                  //this.elements.ngramGenerateButton.focus()
                 },
                 200,
               )
 
-              this.ngramsKeeper = null
-              this.generateNGramWords()
             },
             "urlShorthand": "permutation",
           },
@@ -804,20 +802,18 @@
               new GenericElement("vigenere-cipher-help-launcher-button"),
             ],
             "callback": () => {
-              this.ngramsKeeper = null
-              this.elements.matchLengthsRow.makeVisible()
 
               // The tab button being clicked gets the focus.
               // So we have to delay.
               // this.elements.patternLettersElement.focus()
               setTimeout(
                 () => {
-                  this.elements.patternLettersElement.focus()
+                  //this.elements.patternLettersElement.focus()
                 },
                 200,
               )
 
-              this.showMatches()
+              //this.showMatches()
             },
             "urlShorthand": "vigenere",
           },
@@ -829,20 +825,17 @@
               new GenericElement("playfair-cipher-help-launcher-button"),
             ],
             "callback": () => {
-              this.ngramsKeeper = null
-              this.elements.matchLengthsRow.makeInvisible()
 
               // The tab button being clicked gets the focus.
               // So we have to delay.
               // this.elements.anagramLettersElement.focus()
               setTimeout(
                 () => {
-                  this.elements.anagramLettersElement.focus()
+                  //this.elements.anagramLettersElement.focus()
                 },
                 200,
               )
 
-              this.showMatches()
             },
             "urlShorthand": "playfair",
           },
@@ -856,20 +849,17 @@
               new GenericElement("foursquare-cipher-help-launcher-button"),
             ],
             "callback": () => {
-              this.ngramsKeeper = null
-              this.elements.matchLengthsRow.makeVisible()
 
               // The tab button being clicked gets the focus.
               // So we have to delay.
               // this.elements.requiredLettersElement.focus()
               setTimeout(
                 () => {
-                  this.elements.requiredLettersElement.focus()
+                  //this.elements.requiredLettersElement.focus()
                 },
                 200,
               )
 
-              this.showMatches()
             },
             "urlShorthand": "foursquare",
           },
@@ -879,122 +869,51 @@
         "deselected", // CSS style class
       )
 
-
       // ----------------------------------------------------------------
-      this.elements.pattern_mode_help_background  = new GenericElement("vigenere-cipher-help-background")
-      this.elements.shift_cipher_help_content  = new GenericElement("vigenere-cipher-help-content")
+      this.elements.help = {}
 
-      this.elements.pattern_mode_help_launcherButton = new Button(
-        "vigenere-cipher-help-launcher-button",
-        null,
-        (event) => {
-          this.elements.pattern_mode_help_background.makeVisible("block")
-          this.elements.pattern_mode_help_background.underlying.style.display = "block"
-        },
-      )
-
-      this.elements.pattern_mode_help_close_button = new Button(
-        "vigenere-cipher-help-close-button",
-        null,
-        (event) => {
-          this.elements.pattern_mode_help_background.makeInvisible()
-        },
-      )
-
-      // ----------------------------------------------------------------
-      this.elements.anagram_mode_help_background  = new GenericElement("playfair-cipher-help-background")
-      this.elements.permutation_cipher_help_content  = new GenericElement("playfair-cipher-help-content")
-
-      this.elements.anagram_mode_help_launcherButton = new Button(
-        "playfair-cipher-help-launcher-button",
-        null,
-        (event) => {
-          this.elements.anagram_mode_help_background.makeVisible("block")
-          this.elements.anagram_mode_help_background.underlying.style.display = "block"
-        },
-      )
-
-      this.elements.anagram_mode_help_close_button = new Button(
-        "playfair-cipher-help-close-button",
-        null,
-        (event) => {
-          this.elements.anagram_mode_help_background.makeInvisible()
-        },
-      )
-
-      // ----------------------------------------------------------------
-      this.elements.random_word_mode_help_background  = new GenericElement("shift-cipher-help-background")
-      this.elements.vigenere_cipher_help_content  = new GenericElement("shift-cipher-help-content")
-
-      this.elements.random_word_mode_help_launcherButton = new Button(
+      this.elements.help.shift = new HelpWidgets(
+        "shift-cipher-help-background",
+        "shift-cipher-help-content",
         "shift-cipher-help-launcher-button",
-        null,
-        (event) => {
-          this.elements.random_word_mode_help_background.makeVisible("block")
-          this.elements.random_word_mode_help_background.underlying.style.display = "block"
-        },
-      )
-
-      this.elements.random_word_mode_help_close_button = new Button(
         "shift-cipher-help-close-button",
-        null,
-        (event) => {
-          this.elements.random_word_mode_help_background.makeInvisible()
-        },
       )
 
-      // ----------------------------------------------------------------
-      this.elements.permutation_cipher_help_background  = new GenericElement("permutation-cipher-help-background")
-      this.elements.permutation_cipher_help_content  = new GenericElement("permutation-cipher-help-content")
-
-      this.elements.permutation_cipher_help_launcherButton = new Button(
+      this.elements.help.permutation = new HelpWidgets(
+        "permutation-cipher-help-background",
+        "permutation-cipher-help-content",
         "permutation-cipher-help-launcher-button",
-        null,
-        (event) => {
-          this.elements.permutation_cipher_help_background.makeVisible("block")
-          this.elements.permutation_cipher_help_background.underlying.style.display = "block"
-        },
-      )
-
-      this.elements.permutation_cipher_help_close_button = new Button(
         "permutation-cipher-help-close-button",
-        null,
-        (event) => {
-          this.elements.permutation_cipher_help_background.makeInvisible()
-        },
       )
 
-      // ----------------------------------------------------------------
+      this.elements.help.vigenere = new HelpWidgets(
+        "vigenere-cipher-help-background",
+        "vigenere-cipher-help-content",
+        "vigenere-cipher-help-launcher-button",
+        "vigenere-cipher-help-close-button",
+      )
 
-      this.elements.foursquare_cipher_help_background  = new GenericElement("foursquare-cipher-help-background")
-      this.elements.foursquare_cipher_help_content  = new GenericElement("foursquare-cipher-help-content")
+      this.elements.help.playfair = new HelpWidgets(
+        "playfair-cipher-help-background",
+        "playfair-cipher-help-content",
+        "playfair-cipher-help-launcher-button",
+        "playfair-cipher-help-close-button",
+      )
 
-      this.elements.foursquare_cipher_help_launcherButton = new Button(
+      this.elements.help.foursquare = new HelpWidgets(
+        "foursquare-cipher-help-background",
+        "foursquare-cipher-help-content",
         "foursquare-cipher-help-launcher-button",
-        null,
-        (event) => {
-          this.elements.foursquare_cipher_help_background.makeVisible("block")
-          this.elements.foursquare_cipher_help_background.underlying.style.display = "block"
-        },
-      )
-
-      this.elements.foursquare_cipher_help_close_button = new Button(
         "foursquare-cipher-help-close-button",
-        null,
-        (event) => {
-          this.elements.foursquare_cipher_help_background.makeInvisible()
-        },
       )
 
       // ----------------------------------------------------------------
       // This is a hack to get the escape key to close the help modal on desktop.
       document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') {
-          window.app.elements.foursquare_cipher_help_background.makeInvisible()
-          window.app.elements.pattern_mode_help_background.makeInvisible()
-          window.app.elements.anagram_mode_help_background.makeInvisible()
-          window.app.elements.random_word_mode_help_background.makeInvisible()
-          window.app.elements.permutation_cipher_help_background.makeInvisible()
+          Object.keys(window.app.elements.help).forEach((id) => {
+            window.app.elements.help[id].makeBackgroundInvisible()
+          })
         }
       });
 
@@ -1007,32 +926,18 @@
           document.body.style.backgroundColor = "white"
           document.body.style.color = "black"
 
-          this.elements.shift_cipher_help_content.underlying.style.backgroundColor       = "white"
-          this.elements.shift_cipher_help_content.underlying.style.color                 = "black"
-          this.elements.permutation_cipher_help_content.underlying.style.backgroundColor = "white"
-          this.elements.permutation_cipher_help_content.underlying.style.color           = "black"
-          this.elements.vigenere_cipher_help_content.underlying.style.backgroundColor    = "white"
-          this.elements.vigenere_cipher_help_content.underlying.style.color              = "black"
-          this.elements.playfair_cipher_help_content.underlying.style.backgroundColor    = "white"
-          this.elements.playfair_cipher_help_content.underlying.style.color              = "black"
-          this.elements.foursquare_cipher_help_content.underlying.style.backgroundColor  = "white"
-          this.elements.foursquare_cipher_help_content.underlying.style.color            = "black"
+          Object.keys(this.elements.help).forEach((id) => {
+            this.elements.help[id].setColors("black", "white")
+          })
 
         },
         (event) => {
           document.body.style.backgroundColor = "black"
           document.body.style.color = "white"
 
-          this.elements.shift_cipher_help_content.underlying.style.backgroundColor       = "black"
-          this.elements.shift_cipher_help_content.underlying.style.color                 = "white"
-          this.elements.permutation_cipher_help_content.underlying.style.backgroundColor = "black"
-          this.elements.permutation_cipher_help_content.underlying.style.color           = "white"
-          this.elements.vigenere_cipher_help_content.underlying.style.backgroundColor    = "black"
-          this.elements.vigenere_cipher_help_content.underlying.style.color              = "white"
-          this.elements.playfair_cipher_help_content.underlying.style.backgroundColor    = "black"
-          this.elements.playfair_cipher_help_content.underlying.style.color              = "white"
-          this.elements.foursquare_cipher_help_content.underlying.style.backgroundColor  = "black"
-          this.elements.foursquare_cipher_help_content.underlying.style.color            = "white"
+          Object.keys(this.elements.help).forEach((id) => {
+            this.elements.help[id].setColors("white", "black")
+          })
 
         },
       )
