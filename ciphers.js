@@ -27,16 +27,66 @@ export function shiftCrypt(
   var outputs = Array.of(n)
 
   for (let i = 0; i < n; i++) {
-    let inChar = inputText.charCodeAt(i)
-    var outChar
-    if (inChar >= 65 && inChar <= 90) {
-      let inInt = inChar - 65
+    let inCode = inputText.charCodeAt(i)
+    var outCode
+    if (inCode >= 65 && inCode <= 90) {
+      let inInt = inCode - 65
       let outInt = (inInt + shiftInt) % 26
-      outChar = outInt + 65
+      outCode = outInt + 65
     } else {
-      outChar = inChar
+      outCode = inCode
     }
-    outputs[i] = String.fromCharCode(outChar)
+    outputs[i] = String.fromCharCode(outCode)
+  }
+
+  return outputs.join("")
+}
+
+// Applies a Vigenere cipher to the input text.
+// The input text and shift letter are both uppercased.
+// Characters outside the range A-Z are left as-is.
+export function vigenereCrypt(
+  inputText,
+  keyText,
+  encryptOrDecrypt) {
+
+  console.log("VI", inputText)
+  console.log("VK", keyText)
+
+  if (inputText == "") {
+    return inputText
+  }
+  if (keyText.length < 1) {
+    return ""
+  }
+
+  const forward = getForward(encryptOrDecrypt)
+
+  inputText = inputText.toUpperCase()
+  const n = inputText.length
+  const m = keyText.length
+  var outputs = Array.of(n)
+
+  for (let i = 0; i < n; i++) {
+    let inCode = inputText.charCodeAt(i)
+    let keyChar = keyText[i % m]
+    console.log({
+      'n': n,
+      'm': m,
+      'i': i,
+      'p': inCode,
+      'k': keyChar,
+    })
+    let shiftInt = getShiftInt(keyChar, forward)
+    var outCode
+    if (inCode >= 65 && inCode <= 90) {
+      let inInt = inCode - 65
+      let outInt = (inInt + shiftInt) % 26
+      outCode = outInt + 65
+    } else {
+      outCode = inCode
+    }
+    outputs[i] = String.fromCharCode(outCode)
   }
 
   return outputs.join("")

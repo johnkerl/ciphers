@@ -345,12 +345,29 @@
   </tr>
 
   <tr id="permutation-keytext-row">
-    <td> <i>Under construction</i> </td>
-    <td> &nbsp; </td>
+    <td> <i>(Under construction)</i> Keytext: </td>
+    <td class="fixed-width-text"> 
+      <input
+        type=text
+        placeholder="..."
+        size=26
+        id="permutation-keytext"
+        class="fixed-width-text larger-input-text"
+      >
+    </td>
   </tr>
 
   <tr id="vigenere-keytext-row">
-    <td> <i>Under construction</i> </td>
+    <td> <i>(Under construction)</i> Keytext: </td>
+    <td class="fixed-width-text"> 
+      <input
+        type=text
+        placeholder="..."
+        size=26
+        id="vigenere-keytext"
+        class="fixed-width-text larger-input-text"
+      >
+    </td>
     <td> &nbsp; </td>
   </tr>
 
@@ -508,6 +525,7 @@
 
   import {
     shiftCrypt,
+    vigenereCrypt,
   } from "./ciphers.js" // local copy
 
   // ----------------------------------------------------------------
@@ -525,18 +543,6 @@
 
       this.setElementsAndCallbacks()
 
-//      if (this.elements.cipherButtons.which() == 'foursquare-cipher-button') {
-//        this.elements.requiredLettersElement.focus()
-//      } else if (this.elements.cipherButtons.which() == 'playfair-cipher-button') {
-//        this.elements.anagramLettersElement.focus()
-//      } else if (this.elements.cipherButtons.which() == 'vigenere-cipher-button') {
-//        this.elements.patternLettersElement.focus()
-//      } else if (this.elements.cipherButtons.which() == 'shift-cipher-button') {
-//        this.elements.shiftCipherButton.focus()
-//      } else if (this.elements.cipherButtons.which() == 'permutation-cipher-button') {
-//        this.elements.ngramGenerateButton.focus()
-//      }
-
     }
 
     setElementsAndCallbacks() {
@@ -552,149 +558,19 @@
       this.elements.inputTextElement = new ConstrainedTextInput(
         "input-text",
         (text) => text.toUpperCase(),
-        (event) => { this.appShiftCrypt() }
+        (event) => { this.appCrypt() }
       )
 
       this.elements.encryptDecryptRadioButtons = new RadioButtons(
         ["encrypt-button", "decrypt-button"],
-        (newValue) => { this.appShiftCrypt() }
+        (newValue) => { this.appCrypt() }
       )
 
-//      // foursquare-cipher element
-//      this.elements.clearLettersButton = new Button(
-//        "clear-letters-button",
-//        "Clear",
-//        (event) => {
-//          this.logAt1("CLEAR-LETTERS BUTTON WAS CLICKED")
-//          this.elements.requiredLettersElement.set("")
-//          this.elements.otherLettersElement.set("")
-//          this.showFoursquareModeMatches()
-//        },
-//      )
-
-//      // foursquare-cipher element
-//      this.elements.exampleButton = new Button(
-//        "example-button",
-//        "Example",
-//        (event) => {
-//          this.logAt1("EXAMPLE BUTTON WAS CLICKED")
-
-//          this.elements.requiredLettersElement.set("E")
-//          this.elements.otherLettersElement.set("XAMPLS")
-//          this.elements.outputElement.set("")
-
-//          this.showFoursquareModeMatches()
-//        },
-//      )
-
-//      // foursquare-cipher element
-//      this.elements.allOthersButton = new Button(
-//        "all-others-button",
-//        "A-Z",
-//        (event) => {
-//          this.logAt1("A-Z BUTTON WAS CLICKED")
-//
-//          this.elements.requiredLettersElement.set("")
-//          this.elements.otherLettersElement.set("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-//          this.elements.outputElement.set("")
-//
-//          this.showFoursquareModeMatches()
-//        },
-//      )
-
-//      // vigenere-cipher element
-//      this.elements.patternClearLettersButton = new Button(
-//        "pattern-clear-letters-button",
-//        "Clear",
-//        (event) => {
-//          this.logAt1("PATTERN-CLEAR-LETTERS BUTTON WAS CLICKED")
-//          this.elements.patternLettersElement.set("")
-//          this.showVigenereModeMatches()
-//        },
-//      )
-
-//      // playfair-cipher element
-//      this.elements.anagramClearLettersButton = new Button(
-//        "anagram-clear-letters-button",
-//        "Clear",
-//        (event) => {
-//          this.logAt1("ANAGRAM-CLEAR-LETTERS BUTTON WAS CLICKED")
-//          this.elements.anagramLettersElement.set("")
-//          this.showPlayfairCipherMatches()
-//        },
-//      )
-
-//      // shift-cipher element
-//      this.elements.shiftCipherButton = new Button(
-//        "shift-generate-button",
-//        "Generate",
-//        (event) => {
-//          this.logAt1("shift-GENERATE BUTTON WAS CLICKED")
-//          this.generateRandomWords()
-//        },
-//      )
-
-//      // shift-cipher element
-//      this.elements.randomWordCountInput = new IntRangeInput(
-//        "shift-count",
-//        this.state.defaultRandomWordCount, // default
-//        this.state.minRandomWordCount, // min
-//        this.state.maxRandomWordCount, // max
-//        (event) => {
-//          this.generateRandomWords()
-//        },
-//      )
-
-//      // permutation-cipher element
-//      this.elements.ngramGenerateButton = new Button(
-//        "permutation-generate-button",
-//        "Generate",
-//        (event) => {
-//          this.logAt0("PERMUTATION-GENERATE BUTTON WAS CLICKED")
-//          // Do not recompute the NGramsKeeper -- re-use it
-//          this.generateNGramWords()
-//        },
-//      )
-
-//      // permutation-cipher element
-//      this.elements.ngramWordCountInput = new IntRangeInput(
-//        "permutation-word-count-input",
-//        this.state.defaultNGramWordCount, // default
-//        this.state.minNGramWordCount, // min
-//        this.state.maxNGramWordCount, // max
-//        (event) => {
-//          this.logAt0("PERMUTATION-WORD-COUNT INPUT WAS SELECTED")
-//          this.generateNGramWords()
-//        },
-//      )
-
-//      // permutation-cipher element
-//      console
-//      this.elements.ngramNInput = new IntRangeInput(
-//        "permutation-n-input",
-//        this.state.defaultNGramN, // default
-//        this.state.minNGramN, // min
-//        this.state.maxNGramN, // max
-//        (event) => {
-//          this.logAt0("PERMUTATION-N INPUT WAS SELECTED")
-//          // Recompute the NGramsKeeper
-//          this.ngramsKeeper = null
-//          this.generateNGramWords()
-//        },
-//      )
-
-//      this.elements.resetMatchLengthsButton = new Button(
-//        "reset-match-lengths-button",
-//        "Reset",
-//        (event) => {
-//          this.logAt1("RESET-MATCH-LENGTHS BUTTON WAS CLICKED")
-//          this.elements.minMatchLengthElement.resetToDefault(),
-//          this.elements.maxMatchLengthElement.resetToDefault(),
-//          this.showMatches()
-//        },
-//      )
-
-//      this.elements.matchLengthsRow = new GenericElement("match-lengths-row")
+      this.elements.vigenereKeyTextElement = new ConstrainedTextInput(
+        "vigenere-keytext",
+        (text) => text.toUpperCase(),
+        (event) => { this.appCrypt() }
+      )
 
       this.elements.cipherButtons = new URLAndPersistentNButtonSwitcher( {
 
@@ -890,6 +766,18 @@
 
     }
 
+    appCrypt() {
+      const which = this.elements.cipherButtons.which()
+      if (which == "shift-cipher-button") {
+        this.appShiftCrypt()
+      } else if (which == "vigenere-cipher-button") {
+        this.appVigenereCrypt()
+      } else {
+        // TODO
+      }
+
+    }
+
     appShiftCrypt() {
       const inputText = this.elements.inputTextElement.get()
       const shiftLetter = this.elements.shiftLetterDropdown.get()
@@ -898,6 +786,18 @@
       this.logAt2("shiftLetter", shiftLetter)
       this.logAt2("direction", direction)
       const output = shiftCrypt(inputText, shiftLetter, direction)
+      this.logAt2("output", output)
+      this.elements.outputElement.set(output)
+    }
+
+    appVigenereCrypt() {
+      const inputText = this.elements.inputTextElement.get()
+      const keyText = this.elements.vigenereKeyTextElement.get()
+      const direction = this.elements.encryptDecryptRadioButtons.get()
+      this.logAt2("inputText", inputText)
+      this.logAt2("keyText", keyText)
+      this.logAt2("direction", direction)
+      const output = vigenereCrypt(inputText, keyText, direction)
       this.logAt2("output", output)
       this.elements.outputElement.set(output)
     }
