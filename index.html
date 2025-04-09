@@ -352,7 +352,12 @@
   </tr>
 
   <tr id="permutation-keytext-row">
-    <td> <i>(Under construction)</i> </td>
+    <td>
+      <span>
+        <button class="maroon" id="permutation-keytext-reset-button">Reset</button>
+        <button class="maroon" id="permutation-keytext-generate-random-button">Random</button>
+      </span>
+    </td>
     <td> Permutation of A-Z: </td>
     <td class="fixed-width-text"> 
       <input
@@ -516,6 +521,10 @@
   } from "./sliver.js" // local copy
 
   import {
+    ALPHABET,
+    isPermutationOfAZ,
+    permutationCrypt,
+    randomPermutationOf,
     shiftCrypt,
     vigenereCrypt,
   } from "./ciphers.js" // local copy
@@ -610,6 +619,30 @@
 
       this.elements.vigenereKeyTextElement = new ConstrainedTextInput(
         "vigenere-keytext",
+        (text) => text.toUpperCase(),
+        (event) => { this.appCrypt() }
+      )
+
+      this.elements.permutationKeytextResetButton = new Button(
+        "permutation-keytext-reset-button",
+        null,
+        (event) => {
+          this.elements.permutationKeyTextElement.set(ALPHABET)
+          this.appCrypt()
+        },
+      )
+
+      this.elements.permutationKeytextGenerateRandomButton = new Button(
+        "permutation-keytext-generate-random-button",
+        null,
+        (event) => {
+          this.elements.permutationKeyTextElement.set(randomPermutationOf(ALPHABET))
+          this.appCrypt()
+        },
+      )
+
+      this.elements.permutationKeyTextElement = new ConstrainedTextInput(
+        "permutation-keytext",
         (text) => text.toUpperCase(),
         (event) => { this.appCrypt() }
       )
@@ -776,6 +809,8 @@
         this.appShiftCrypt()
       } else if (which == "vigenere-cipher-button") {
         this.appVigenereCrypt()
+      } else if (which == "permutation-cipher-button") {
+        this.appPermutationCrypt()
       } else {
         // TODO
       }
@@ -802,6 +837,28 @@
       this.logAt2("keyText", keyText)
       this.logAt2("direction", direction)
       const output = vigenereCrypt(inputText, keyText, direction)
+      this.logAt2("output", output)
+      this.elements.outputElement.set(output)
+    }
+
+    appPermutationCrypt() {
+      const inputText = this.elements.inputTextElement.get()
+      const keyText = this.elements.permutationKeyTextElement.get()
+      const direction = this.elements.encryptDecryptRadioButtons.get()
+
+      if (keyText == "") {
+        this.elements.outputElement.set("")
+        return
+      }
+      if (!isPermutationOfAZ(keyText)) {
+        this.elements.outputElement.set("")
+        return
+      }
+
+      this.logAt2("inputText", inputText)
+      this.logAt2("keyText", keyText)
+      this.logAt2("direction", direction)
+      const output = permutationCrypt(inputText, keyText, direction)
       this.logAt2("output", output)
       this.elements.outputElement.set(output)
     }

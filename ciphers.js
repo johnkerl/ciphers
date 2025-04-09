@@ -24,11 +24,11 @@ export function shiftCrypt(
 
   inputText = inputText.toUpperCase()
   const n = inputText.length
-  var outputs = Array.of(n)
+  let outputs = new Array(n)
 
   for (let i = 0; i < n; i++) {
     let inCode = inputText.charCodeAt(i)
-    var outCode
+    let outCode
     if (inCode >= 65 && inCode <= 90) {
       let inInt = inCode - 65
       let outInt = (inInt + shiftInt) % 26
@@ -50,9 +50,6 @@ export function vigenereCrypt(
   keyText,
   encryptOrDecrypt) {
 
-  console.log("VI", inputText)
-  console.log("VK", keyText)
-
   if (inputText == "") {
     return inputText
   }
@@ -65,20 +62,13 @@ export function vigenereCrypt(
   inputText = inputText.toUpperCase()
   const n = inputText.length
   const m = keyText.length
-  var outputs = Array.of(n)
+  let outputs = new Array(n)
 
   for (let i = 0; i < n; i++) {
     let inCode = inputText.charCodeAt(i)
     let keyChar = keyText[i % m]
-    console.log({
-      'n': n,
-      'm': m,
-      'i': i,
-      'p': inCode,
-      'k': keyChar,
-    })
     let shiftInt = getShiftInt(keyChar, forward)
-    var outCode
+    let outCode
     if (inCode >= 65 && inCode <= 90) {
       let inInt = inCode - 65
       let outInt = (inInt + shiftInt) % 26
@@ -91,6 +81,106 @@ export function vigenereCrypt(
 
   return outputs.join("")
 }
+
+// Applies a permutation cipher to the input text.  The input text and key text
+// are both uppercased.  The key text must be a permutation of the letters A-Z.
+// Characters outside the range A-Z are left as-is.
+export function permutationCrypt(
+  inputText,
+  keyText,
+  encryptOrDecrypt) {
+
+  if (inputText == "") {
+    return inputText
+  }
+
+  const forward = getForward(encryptOrDecrypt)
+
+  keyText = keyText.toUpperCase()
+  let permutationMap = makePermutationMap(keyText, forward)
+
+  inputText = inputText.toUpperCase()
+  const n = inputText.length
+  let outputs = new Array(n)
+
+  for (let i = 0; i < n; i++) {
+    let x = inputText[i]
+    if (x in permutationMap) {
+      outputs[i] = permutationMap[x]
+    } else {
+      outputs[i] = x
+    }
+  }
+
+  return outputs.join("")
+}
+
+export const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+export function isPermutationOfAZ(letters) {
+  const actual = letters.split("").sort().join("")
+  const expect = ALPHABET
+  return actual == expect
+}
+
+function makePermutationMap(letters, forward) {
+  if (!isPermutationOfAZ(letters)) {
+    throw new Error('ciphers.js: permutation keytext "' + letters + '" is not a permutation of A-Z')
+  }
+  let permutationMap = {}
+  if (forward) {
+    for (let i = 0; i < ALPHABET.length; i++) {
+      permutationMap[ALPHABET[i]] = letters[i]
+    }
+  } else {
+    for (let i = 0; i < ALPHABET.length; i++) {
+      permutationMap[letters[i]] = ALPHABET[i]
+    }
+  }
+  return permutationMap
+}
+
+export function randomPermutationOf(letters) {
+  let array = letters.split("")
+  let permuted = randomPermutationOfArray(array)
+  return permuted.join("")
+}
+
+function randomPermutationOfArray(input) {
+  const n = input.length
+  let output = [...input]
+
+  let unused_start = 0
+  let num_unused = n-1
+
+  for (let k = 0; k < n; k++) {
+
+    // Select a pseudorandom element from the pool of unused images.
+    // Python's randint(a, b) includes both endpoints.
+    let u = randomInt(unused_start, unused_start + num_unused - 1)
+
+    // Swap it into place.
+    let temp = output[u]
+    output[u] = output[k]
+    output[k] = temp
+
+    // Decrease the size of the pool by 1.
+    // (Yes, unused_start and k always have the same value.  Using two
+    // variables wastes neglible memory and makes the code easier to
+    // understand.)
+    unused_start += 1
+    num_unused   -= 1
+  }
+
+  return output
+}
+
+function randomInt(lo, hi) {
+  lo = Math.ceil(lo);
+  hi = Math.floor(hi);
+  return lo + Math.floor(Math.random() * (hi - lo + 1))
+}
+
 
 // Given a single letter between a-z/A-Z:
 // * Throws if the input doesn't satisfy that
